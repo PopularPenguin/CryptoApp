@@ -7,6 +7,8 @@ object Constants {
     const val API_KEY = BuildConfig.NOMICS_API_KEY
 
     val currencies = listOf(
-        "BTC", "ETH", "LTC", "XRP", "ADA", "USDT", "BNB", "USDC", "SOL", "HEX", "LUNA", "DOGE"
+        "BTC", "ETH", "USDT", "USDC", "BNB", "BUSD", "XRP", "ADA", "SOL", "DOGE",
+        "DOT", "DAI", "TRX", "SHIB", "LEO", "WBTC", "AVAX", "HEX", "STETH", "FTT",
+        "MATIC", "LTC", "OKB", "LINK", "CRO", "XLM", "ATOM", "NEAR", "UNI", "ALGO"
     )
 }

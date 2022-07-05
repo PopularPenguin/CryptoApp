@@ -1,10 +1,15 @@
 package com.popularpenguin.cryptoapp.ui.main
 
+import android.content.res.Configuration
+import android.view.Gravity
+import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
@@ -14,6 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -45,20 +51,32 @@ fun MainScreen() {
         }
         .build()
 
-    LazyColumn {
+    LazyColumn(state = rememberLazyListState()) {
         items(currencyList) { currency ->
             CryptoListItem(currency = currency, imageLoader = imageLoader)
         }
+        item { Footer() }
     }
 }
 
 @Composable
 fun CryptoListItem(currency: Currency, imageLoader: ImageLoader) {
+    val context = LocalContext.current
     Row(
         modifier = Modifier
             .fillMaxWidth()
             .background(brush = Brush.horizontalGradient(colors = listOf(Color.White, Gray300)))
-            .padding(8.dp),
+            .padding(8.dp)
+            .clickable {
+                val toast = Toast.makeText(
+                    context,
+                    currency.name ?: "",
+                    Toast.LENGTH_SHORT
+                )
+
+                toast.setGravity(Gravity.CENTER, 0, 0)
+                toast.show()
+            },
         horizontalArrangement = Arrangement.SpaceBetween
     ) {
         CoinImage(currency = currency, imageLoader = imageLoader)
@@ -87,9 +105,11 @@ fun CoinImage(currency: Currency, imageLoader: ImageLoader) {
 
         Column(modifier = Modifier.padding(all = 8.dp)) {
             // currency name
+            val orientation = LocalConfiguration.current.orientation
+
             Text(
-                text = currency.name ?: "",
-                fontSize = 18.sp,
+                text = Format.formatCurrencyName(currency.name, orientation),
+                fontSize = 16.sp,
                 fontWeight = FontWeight.Bold
             )
             Spacer(modifier = Modifier.height(4.dp))
@@ -132,7 +152,7 @@ fun CoinPrice(currency: Currency) {
             Text(
                 modifier = Modifier.align(Alignment.End),
                 text = Format.formatUS(currency.price),
-                fontSize = 18.sp
+                fontSize = 16.sp
             )
             Spacer(modifier = Modifier.height(4.dp))
             // daily change percentage
@@ -143,5 +163,31 @@ fun CoinPrice(currency: Currency) {
                 fontSize = 12.sp
             )
         }
+    }
+}
+
+@Composable
+fun Footer() {
+    Row(
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(48.dp)
+            .background(brush = Brush.horizontalGradient(colors = listOf(Color.White, Gray300)))
+            .padding(all = 8.dp),
+        horizontalArrangement = Arrangement.Center
+    ) {
+        Text (
+            text = "2022",
+            color = Color.Black,
+            fontSize = 18.sp,
+            fontWeight = FontWeight.Bold,
+        )
+        Spacer(modifier = Modifier.width(16.dp))
+        Text (
+            text = "Brian Niedzialkoski",
+            color = Color.Black,
+            fontSize = 18.sp,
+            fontWeight = FontWeight.Bold
+        )
     }
 }
