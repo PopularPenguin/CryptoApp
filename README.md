@@ -1,6 +1,14 @@
 # CryptoApp
 
-This is an example project using Jetpack Compose UI + Retrofit to fetch crytocurrency data using the Nomics API.
+This app uses Jetpack Compose UI + Retrofit to fetch the crytocurrency data of the top 50 cryptocurrencies using the Nomics API. The data displays the symbol and currency name plus the current price, trend, and percent price change. This data is automatically refreshed every 30 seconds.
+
+Libraries used include: </br>
+Jetpack Compose </br>
+Compose ViewModel </br>
+Retrofit2 </br>
+Moshi </br>
+Hilt </br>
+Coil </br>
 
 I wrote about building this app in a blog post here:
 
